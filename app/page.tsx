@@ -6,13 +6,30 @@ export default function Home() {
   const [placa, setPlaca] = useState("");
   const [resultado, setResultado] = useState<any>(null);
 
-  const buscar = () => {
-    setResultado({
-      papeletas: 2,
-      soat: "Vigente",
-      sunarp: "Sin gravamen",
-    });
-  };
+  const buscar = async () => {
+    console.log("FUNCIONA");
+    if (!placa) return;
+
+  const res = await fetch("/api/vehiculos", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      placa,
+    }),
+  });
+
+  const data = await res.json();
+
+  console.log(data);
+
+  setResultado({
+    papeletas: 2,
+    soat: "Vigente",
+    sunarp: "Sin gravamen",
+  });
+};
 
   return (
     <main className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
